@@ -16,7 +16,7 @@ type FrutaController struct {
 // @ID get-fruta
 // @Produce json
 // @Param nome path string true "nome"
-// @Success 200 {object} model.User "Retorna as informaçōes da fruta"
+// @Success 200 {object} model.Fruta "Retorna as informaçōes da fruta"
 // @Failure 400 {object} string "O nome da fruta não deve ser vazio, e pode conter no máximo 50 caracteres"
 // @Failure 404 {object} string "Fruta não encontrada"
 // @Router /fruta/{nome} [get]

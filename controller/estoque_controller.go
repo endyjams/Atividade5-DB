@@ -51,7 +51,7 @@ func (estoqueController *EstoqueController) GetEstoque(ctx *gin.Context) {
 // @Failure 409 {object} string "Uma fruta com esse nome já existe."
 // @Failure 500 {object} string "Falha ao registrar Fruta. Por favor, tente novamente"
 // @Router /fruta [post]
-func (estoqueController *EstoqueController) CreateFruta(ctx *gin.Context) {
+func (estoqueController *EstoqueController) CreateEstoque(ctx *gin.Context) {
 	var estoque model.Estoque
 
 	errorBinding := ctx.ShouldBindJSON(&estoque)
@@ -61,7 +61,7 @@ func (estoqueController *EstoqueController) CreateFruta(ctx *gin.Context) {
 		return
 	}
 
-	errorCreating := estoqueController.EstoqueService.CreateFruta(&estoque)
+	errorCreating := estoqueController.EstoqueService.CreateEstoque(&estoque)
 
 	if errorCreating != nil {
 		ctx.JSON(500, gin.H{"erro": "Falha ao registrar Estoque. Por favor, tente novamente"})

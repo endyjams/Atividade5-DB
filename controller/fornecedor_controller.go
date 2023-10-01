@@ -49,7 +49,7 @@ func (fornecedorController *FornecedorController) GetFornecedor(ctx *gin.Context
 // @Failure 409 {object} string "Um fornecedor com esse nome já existe."
 // @Failure 500 {object} string "Falha ao registrar Fornecedor. Por favor, tente novamente"
 // @Router /fornecedor [post]
-func (fornecedorController *FornecedorController) CreateFruta(ctx *gin.Context) {
+func (fornecedorController *FornecedorController) CreateFornecedor(ctx *gin.Context) {
 	var fornecedor model.Fornecedor
 
 	errorBinding := ctx.ShouldBindJSON(&fornecedor)

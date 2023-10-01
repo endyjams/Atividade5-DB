@@ -38,9 +38,9 @@ func (frutaController *FrutaController) GetFruta(ctx *gin.Context) {
 	ctx.JSON(200, fruta)
 }
 
-// @Summary Registra um novo usuário no sistema a partir de suas informaçōes
-// @Description Registra um novo usuário a partir do seu cpf, nome e data de nascimento
-// @ID post-user
+// @Summary Registra uma nova fruta no sistema a partir de suas informaçōes
+// @Description Registra uma nova fruta a partir do seu nome e preco
+// @ID post-fruta
 // @Produce json
 // @Param nome path string true "Nome"
 // @Param preco path string true "Preco"

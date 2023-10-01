@@ -3,7 +3,7 @@ package controller
 import (
 	"Atividade5-DB/service"
 
-	model "Atividade5-DB/model"
+	"Atividade5-DB/model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +18,7 @@ type EstoqueController struct {
 // @Produce json
 // @Param nomeFruta path string true "nomeFruta"
 // @Param nomeFruta path string true "nomeFornecedor"
-// @Success 200 {object} model.nomeFruta "Retorna as informaçōes do estoque da Fruta"
+// @Success 200 {object} model.Estoque "Retorna as informaçōes do estoque da Fruta"
 // @Failure 400 {object} string "O nome da fruta não deve ser vazio, e pode conter no máximo 50 caracteres"
 // @Failure 404 {object} string "Fruta não encontrada em Estoque"
 // @Router /estoque/{nomeFruta}/{nomeFornecedor} [get]
@@ -52,7 +52,7 @@ func (estoqueController *EstoqueController) GetEstoque(ctx *gin.Context) {
 // @Failure 400 {object} string "Informaçōes inválidas."
 // @Failure 409 {object} string "Uma fruta com esse nome já existe."
 // @Failure 500 {object} string "Falha ao registrar Fruta. Por favor, tente novamente"
-// @Router /fruta [post]
+// @Router /estoque [post]
 func (estoqueController *EstoqueController) CreateEstoque(ctx *gin.Context) {
 	var estoque model.Estoque
 

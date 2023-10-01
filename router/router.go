@@ -11,7 +11,7 @@ import (
 
 // @title Database API example
 // @version 1.0
-// @description um exemplo de API para a disciplina de banco de dados
+// @description última parte do trabalho para disciplina banco de dados
 // @host localhost:8000
 func NewRouter(frutaController *controller.FrutaController, fornecedorController *controller.FornecedorController, estoqueController *controller.EstoqueController) *gin.Engine {
 	r := gin.Default()

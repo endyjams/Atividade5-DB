@@ -1,0 +1,228 @@
+definitions:
+  model.Estoque:
+    properties:
+      nomeFornecedor:
+        type: string
+      nomeFruta:
+        type: string
+      quantidade:
+        type: integer
+    type: object
+  model.Fornecedor:
+    properties:
+      nome:
+        type: string
+      telefone:
+        type: string
+    type: object
+  model.Fruta:
+    properties:
+      nome:
+        type: string
+      preco:
+        type: number
+    type: object
+info:
+  contact: {}
+paths:
+  /estoque:
+    post:
+      description: Registra um novo estoque de fruta a partir do nome do fornecedor,
+        nome da fruta e quantidade fornecida
+      operationId: post-estoque
+      parameters:
+      - description: NomeFruta
+        in: path
+        name: nomeFruta
+        required: true
+        type: string
+      - description: NomeFornecedor
+        in: path
+        name: nomeFornecedor
+        required: true
+        type: string
+      - description: Quantidade
+        in: path
+        name: quantidade
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Estoque de fruta registrado com sucesso
+          schema:
+            type: string
+        "400":
+          description: Informaçōes inválidas.
+          schema:
+            type: string
+        "409":
+          description: Uma fruta com esse nome já existe.
+          schema:
+            type: string
+        "500":
+          description: Falha ao registrar Fruta. Por favor, tente novamente
+          schema:
+            type: string
+      summary: Registra uma nova fruta em estoque a partir do nome do fornecedor,
+        nome da fruta e quantidade fornecida
+  /estoque/{nomeFruta}/{nomeFornecedor}:
+    get:
+      description: Busca a quantidade de uma fruta fornecida por um fornecedor no
+        estoque a partir do nome da fruta e nome do fornecedor
+      operationId: get-estoque
+      parameters:
+      - description: nomeFruta
+        in: path
+        name: nomeFruta
+        required: true
+        type: string
+      - description: nomeFornecedor
+        in: path
+        name: nomeFruta
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Retorna as informaçōes do estoque da Fruta
+          schema:
+            $ref: '#/definitions/model.Estoque'
+        "400":
+          description: O nome da fruta não deve ser vazio, e pode conter no máximo
+            50 caracteres
+          schema:
+            type: string
+        "404":
+          description: Fruta não encontrada em Estoque
+          schema:
+            type: string
+      summary: Busca a quantidade de uma fruta fornecida por um fornecedor no estoque
+        a partir do nome da fruta e nome do fornecedor
+  /fornecedor:
+    post:
+      description: Registra um novo fornecedor a partir do seu nome e telefone
+      operationId: post-fornecedor
+      parameters:
+      - description: Nome
+        in: path
+        name: nome
+        required: true
+        type: string
+      - description: Telefone
+        in: path
+        name: telefone
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Fornecedor registrado com sucesso
+          schema:
+            type: string
+        "400":
+          description: Informaçōes inválidas.
+          schema:
+            type: string
+        "409":
+          description: Um fornecedor com esse nome já existe.
+          schema:
+            type: string
+        "500":
+          description: Falha ao registrar Fornecedor. Por favor, tente novamente
+          schema:
+            type: string
+      summary: Registra um novo fornecedor no sistema a partir de suas informaçōes
+  /fornecedor/{nome}:
+    get:
+      description: Retorna as informaçōes de um fornecedor a partir de seu nome
+      operationId: get-fornecedor
+      parameters:
+      - description: nome
+        in: path
+        name: nome
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Retorna as informaçōes do fornecedor
+          schema:
+            $ref: '#/definitions/model.Fornecedor'
+        "400":
+          description: O nome do fornecedor não deve ser vazio, e pode conter no máximo
+            50 caracteres
+          schema:
+            type: string
+        "404":
+          description: Fornecedor não encontrado
+          schema:
+            type: string
+      summary: Busca um fornecedor pelo nome
+  /fruta:
+    post:
+      description: Registra uma nova fruta a partir do seu nome e preco
+      operationId: post-fruta
+      parameters:
+      - description: Nome
+        in: path
+        name: nome
+        required: true
+        type: string
+      - description: Preco
+        in: path
+        name: preco
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Fruta registrada com sucesso
+          schema:
+            type: string
+        "400":
+          description: Informaçōes inválidas.
+          schema:
+            type: string
+        "409":
+          description: Uma fruta com esse nome já existe.
+          schema:
+            type: string
+        "500":
+          description: Falha ao registrar Fruta. Por favor, tente novamente
+          schema:
+            type: string
+      summary: Registra uma nova fruta no sistema a partir de suas informaçōes
+  /fruta/{nome}:
+    get:
+      description: Retorna as informaçōes de uma fruta a partir de seu nome
+      operationId: get-fruta
+      parameters:
+      - description: nome
+        in: path
+        name: nome
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Retorna as informaçōes da fruta
+          schema:
+            $ref: '#/definitions/model.Fruta'
+        "400":
+          description: O nome da fruta não deve ser vazio, e pode conter no máximo
+            50 caracteres
+          schema:
+            type: string
+        "404":
+          description: Fruta não encontrada
+          schema:
+            type: string
+      summary: Busca por uma fruta pelo nome
+swagger: "2.0"

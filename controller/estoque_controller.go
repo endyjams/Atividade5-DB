@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"db-api-example/service"
+	"Atividade5-DB/service"
 
-	model "command-line-arguments/Users/endy.jams/Desktop/db-atividades/Atividade5-DB/model/estoque.go"
+	model "Atividade5-DB/model"
 
 	"github.com/gin-gonic/gin"
 )

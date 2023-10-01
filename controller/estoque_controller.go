@@ -12,27 +12,29 @@ type EstoqueController struct {
 	EstoqueService *service.EstoqueService
 }
 
-// @Summary Busca a quantidade de uma fruta no estoque a partir do nome da fruta
-// @Description Retorna a quantidade de uma fruta no estoque a partir do nome da fruta
+// @Summary Busca a quantidade de uma fruta fornecida por um fornecedor no estoque a partir do nome da fruta e nome do fornecedor
+// @Description Busca a quantidade de uma fruta fornecida por um fornecedor no estoque a partir do nome da fruta e nome do fornecedor
 // @ID get-estoque
 // @Produce json
 // @Param nomeFruta path string true "nomeFruta"
+// @Param nomeFruta path string true "nomeFornecedor"
 // @Success 200 {object} model.nomeFruta "Retorna as informaçōes do estoque da Fruta"
 // @Failure 400 {object} string "O nome da fruta não deve ser vazio, e pode conter no máximo 50 caracteres"
 // @Failure 404 {object} string "Fruta não encontrada em Estoque"
-// @Router /estoque/{nomeFruta} [get]
+// @Router /estoque/{nomeFruta}/{nomeFornecedor} [get]
 func (estoqueController *EstoqueController) GetEstoque(ctx *gin.Context) {
 	nomeFruta := ctx.Param("nomeFruta")
+	nomeFornecedor := ctx.Param("nomeFornecedor")
 
-	if nomeFruta == "" || len(nomeFruta) > 50 {
-		ctx.JSON(400, gin.H{"erro": "O nome da fruta não deve ser vazio, e pode conter no máximo 50 caracteres"})
+	if nomeFruta == "" || len(nomeFruta) > 50 || nomeFornecedor == "" || len(nomeFornecedor) > 50 {
+		ctx.JSON(400, gin.H{"erro": "O nome da fruta e do fornecedor não devem ser vazios, e podem conter no máximo 50 caracteres"})
 		return
 	}
 
-	estoque, err := estoqueController.EstoqueService.GetEstoque(nomeFruta)
+	estoque, err := estoqueController.EstoqueService.GetEstoque(nomeFruta, nomeFornecedor)
 
 	if err != nil {
-		ctx.JSON(404, gin.H{"erro": "Fruta não encontrada em Estoque."})
+		ctx.JSON(404, gin.H{"erro": "Fruta não encontrada no estoque do fornecedor."})
 		return
 	}
 

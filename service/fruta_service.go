@@ -1,8 +1,8 @@
 package service
 
 import (
-	"db-api-example/model"
-	"db-api-example/repository"
+	"Atividade5-DB/model"
+	"Atividade5-DB/repository"
 )
 
 type FrutaService struct {

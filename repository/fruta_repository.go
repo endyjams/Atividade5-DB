@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"db-api-example/database"
+	"Atividade5-DB/database"
 )
 
 type FrutaRepository interface {

@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"db-api-example/model"
-	"db-api-example/service"
+	"Atividade5-DB/model"
+	"Atividade5-DB/service"
 
 	"github.com/gin-gonic/gin"
 )

@@ -23,7 +23,7 @@ func NewRouter(frutaController *controller.FrutaController, fornecedorController
 	r.GET("/fornecedor/:nome", fornecedorController.GetFornecedor)
 	r.POST("/fornecedor", fornecedorController.CreateFornecedor)
 
-	r.GET("/estoque/:nomeFruta", estoqueController.GetEstoque)
+	r.GET("/estoque/:nomeFruta/:nomeFornecedor", estoqueController.GetEstoque)
 	r.POST("/estoque", estoqueController.CreateEstoque)
 	return r
 }

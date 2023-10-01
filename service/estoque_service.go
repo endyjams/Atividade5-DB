@@ -1,16 +1,16 @@
 package service
 
 import (
-	"db-api-example/model"
-	"db-api-example/repository"
+	"Atividade5-DB/model"
+	"Atividade5-DB/repository"
 )
 
 type EstoqueService struct {
 	EstoqueRepository repository.FrutaRepository
 }
 
-func (estoqueService *EstoqueService) GetEstoque(nomeFruta string) (*model.Estoque, error) {
-	return estoqueService.EstoqueRepository.GetEstoque(nomeFruta)
+func (estoqueService *EstoqueService) GetEstoque(nomeFruta string, nomeFornecedor string) (*model.Estoque, error) {
+	return estoqueService.EstoqueRepository.GetEstoque(nomeFruta, nomeFornecedor)
 }
 
 func (estoqueService *EstoqueService) CreateEstoque(estoque *model.Estoque) error {

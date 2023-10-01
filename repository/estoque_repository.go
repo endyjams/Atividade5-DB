@@ -35,7 +35,7 @@ func (estoqueDatabase *EstoqueDatabase) GetEstoque(nomeFruta string, nomeFornece
 	return &estoque, nil
 }
 
-func (estoqueRepository *EstoqueDatabase) CreateUser(estoque *model.Estoque) error {
+func (estoqueRepository *EstoqueDatabase) CreateEstoque(estoque *model.Estoque) error {
 	_, err := estoqueRepository.Db.Conn.Exec("INSERT INTO users (cpf, name, dateOfBirth) VALUES ($1, $2, $3)", estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
 	return err
 }

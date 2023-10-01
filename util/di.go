@@ -17,7 +17,7 @@ func InjectDependencies(db *database.Database, port string) {
 
 	fornecedorRepository := &repository.FornecedorDatabase{Db: db}
 	fornecedorService := &service.FornecedorService{FornecedorRepository: fornecedorRepository}
-	fornecedorController := &controller.FornecedorController{fornecedorService: fornecedorService}
+	fornecedorController := &controller.FornecedorController{FornecedorService: fornecedorService}
 
 	frutaRepository := &repository.FrutaDatabase{Db: db}
 	frutaService := &service.FrutaService{FrutaRepository: frutaRepository}

@@ -1,77 +1,72 @@
 package controller
 
 import (
-	"db-api-example/model"
 	"db-api-example/service"
+
+	model "command-line-arguments/Users/endy.jams/Desktop/db-atividades/Atividade5-DB/model/estoque.go"
 
 	"github.com/gin-gonic/gin"
 )
 
-type FrutaController struct {
-	FrutaService *service.FrutaService
+type EstoqueController struct {
+	EstoqueService *service.EstoqueService
 }
 
-// @Summary Busca um fruta pelo nome
-// @Description Retorna as informaçōes de uma fruta a partir de seu nome
-// @ID get-fruta
+// @Summary Busca a quantidade de uma fruta no estoque a partir do nome da fruta
+// @Description Retorna a quantidade de uma fruta no estoque a partir do nome da fruta
+// @ID get-estoque
 // @Produce json
-// @Param nome path string true "nome"
-// @Success 200 {object} model.User "Retorna as informaçōes da fruta"
+// @Param nomeFruta path string true "nomeFruta"
+// @Success 200 {object} model.nomeFruta "Retorna as informaçōes do estoque da Fruta"
 // @Failure 400 {object} string "O nome da fruta não deve ser vazio, e pode conter no máximo 50 caracteres"
-// @Failure 404 {object} string "Fruta não encontrada"
-// @Router /fruta/{nome} [get]
-func (frutaController *FrutaController) GetFruta(ctx *gin.Context) {
-	nome := ctx.Param("nome")
+// @Failure 404 {object} string "Fruta não encontrada em Estoque"
+// @Router /estoque/{nomeFruta} [get]
+func (estoqueController *EstoqueController) GetEstoque(ctx *gin.Context) {
+	nomeFruta := ctx.Param("nomeFruta")
 
-	if nome == "" || len(nome) > 50 {
+	if nomeFruta == "" || len(nomeFruta) > 50 {
 		ctx.JSON(400, gin.H{"erro": "O nome da fruta não deve ser vazio, e pode conter no máximo 50 caracteres"})
 		return
 	}
 
-	fruta, err := frutaController.FrutaService.GetFruta(nome)
+	estoque, err := estoqueController.EstoqueService.GetEstoque(nomeFruta)
 
 	if err != nil {
-		ctx.JSON(404, gin.H{"erro": "Fruta não encontrada."})
+		ctx.JSON(404, gin.H{"erro": "Fruta não encontrada em Estoque."})
 		return
 	}
 
-	ctx.JSON(200, fruta)
+	ctx.JSON(200, estoque)
 }
 
-// @Summary Registra uma nova fruta no sistema a partir de suas informaçōes
-// @Description Registra uma nova fruta a partir do seu nome e preco
-// @ID post-fruta
+// @Summary Registra uma nova fruta em estoque a partir do nome do fornecedor, nome da fruta e quantidade fornecida
+// @Description Registra um novo estoque de fruta a partir do nome do fornecedor, nome da fruta e quantidade fornecida
+// @ID post-estoque
 // @Produce json
-// @Param nome path string true "Nome"
-// @Param preco path string true "Preco"
-// @Success 201 {object} string "Fruta registrada com sucesso"
+// @Param nomeFruta path string true "NomeFruta"
+// @Param nomeFornecedor path string true "NomeFornecedor"
+// @Param quantidade path int true "Quantidade"
+// @Success 201 {object} string "Estoque de fruta registrado com sucesso"
 // @Failure 400 {object} string "Informaçōes inválidas."
 // @Failure 409 {object} string "Uma fruta com esse nome já existe."
 // @Failure 500 {object} string "Falha ao registrar Fruta. Por favor, tente novamente"
 // @Router /fruta [post]
-func (frutaController *FrutaController) CreateFruta(ctx *gin.Context) {
-	var fruta model.Fruta
+func (estoqueController *EstoqueController) CreateFruta(ctx *gin.Context) {
+	var estoque model.Estoque
 
-	errorBinding := ctx.ShouldBindJSON(&fruta)
+	errorBinding := ctx.ShouldBindJSON(&estoque)
 
 	if errorBinding != nil {
 		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
 		return
 	}
 
-	existingFruta, _ := frutaController.FrutaService.GetFruta(fruta.nome)
-
-	if existingFruta != nil {
-		ctx.JSON(409, gin.H{"erro": "Uma fruta com esse nome já existe."})
-		return
-	}
-
-	errorCreating := frutaController.FrutaService.CreateFruta(&fruta)
+	errorCreating := estoqueController.EstoqueService.CreateFruta(&estoque)
 
 	if errorCreating != nil {
-		ctx.JSON(500, gin.H{"erro": "Falha ao registrar Fruta. Por favor, tente novamente"})
+		ctx.JSON(500, gin.H{"erro": "Falha ao registrar Estoque. Por favor, tente novamente"})
 		return
 	}
 
-	ctx.JSON(201, gin.H{"mensagem": "Fruta registrada com sucesso."})
+	ctx.JSON(201, gin.H{"mensagem": "Estoque registrado com sucesso."})
 }

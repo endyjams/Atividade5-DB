@@ -43,7 +43,7 @@ func (frutaController *FrutaController) GetFruta(ctx *gin.Context) {
 // @ID post-fruta
 // @Produce json
 // @Param nome path string true "Nome"
-// @Param preco path string true "Preco"
+// @Param preco path int true "Preco"
 // @Success 201 {object} string "Fruta registrada com sucesso"
 // @Failure 400 {object} string "Informaçōes inválidas."
 // @Failure 409 {object} string "Uma fruta com esse nome já existe."

@@ -3,6 +3,6 @@ package model
 // Fornecedor representa o fornecedor referente ao estoque de frutas
 // @swaggertype "object"
 type Fornecedor struct {
-	nome     string `json:"nome"`
-	telefone string `json:"telefone"`
+	Nome     string `json:"nome"`
+	Telefone string `json:"telefone"`
 }

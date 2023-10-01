@@ -2,13 +2,15 @@ package repository
 
 import (
 	"Atividade5-DB/database"
+	"Atividade5-DB/model"
 )
 
 type FrutaRepository interface {
-	//TODO functions
+	GetFruta(nome string) (*model.Fruta, error)
+	CreateFruta(estoque *model.Fruta) error
 }
 
-type FrutaRepository struct {
+type FrutaDatabase struct {
 	Db *database.Database
 }
 

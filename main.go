@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 
+	"Atividade5-DB/util"
+
 	"github.com/joho/godotenv"
 )
 
@@ -30,5 +32,5 @@ func main() {
 	db := database.NewDatabase(connStr)
 	defer db.Conn.Close()
 
-	address := fmt.Sprintf(":%s", port)
+	util.InjectDependencies(db, port)
 }

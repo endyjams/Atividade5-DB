@@ -59,7 +59,7 @@ func (fornecedorController *FornecedorController) CreateFornecedor(ctx *gin.Cont
 		return
 	}
 
-	existingFornecedor, _ := fornecedorController.FornecedorService.GetFornecedor(fornecedor.nome)
+	existingFornecedor, _ := fornecedorController.FornecedorService.GetFornecedor(fornecedor.Nome)
 
 	if existingFornecedor != nil {
 		ctx.JSON(409, gin.H{"erro": "Um fornecedor com esse nome já existe."})

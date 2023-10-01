@@ -1,7 +1,7 @@
 package router
 
 import (
-	"db-api-example/controller"
+	"Atividade5-DB/controller"
 
 	"github.com/gin-gonic/gin"
 

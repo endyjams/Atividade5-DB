@@ -2,11 +2,11 @@ package service
 
 import (
 	"Atividade5-DB/model"
-	"Atividade5-DB/repository"
+	repository "Atividade5-DB/repository"
 )
 
 type EstoqueService struct {
-	EstoqueRepository repository.FrutaRepository
+	EstoqueRepository repository.EstoqueRepository
 }
 
 func (estoqueService *EstoqueService) GetEstoque(nomeFruta string, nomeFornecedor string) (*model.Estoque, error) {

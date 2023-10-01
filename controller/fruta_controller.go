@@ -59,7 +59,7 @@ func (frutaController *FrutaController) CreateFruta(ctx *gin.Context) {
 		return
 	}
 
-	existingFruta, _ := frutaController.FrutaService.GetFruta(fruta.nome)
+	existingFruta, _ := frutaController.FrutaService.GetFruta(fruta.Nome)
 
 	if existingFruta != nil {
 		ctx.JSON(409, gin.H{"erro": "Uma fruta com esse nome já existe."})

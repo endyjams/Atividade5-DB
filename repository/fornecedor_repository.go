@@ -20,7 +20,7 @@ func (fornecedorDatabase *FornecedorDatabase) GetFornecedor(nome string) (*model
 
 	query := `SELECT fornecedor.nome, fornecedor.telefone FROM fornecedor where fornecedor.nome = $1`
 
-	err := fornecedorDatabase.Db.Conn.QueryRow(query, nome).Scan(&fornecedor.Nome)
+	err := fornecedorDatabase.Db.Conn.QueryRow(query, nome).Scan(&fornecedor.Nome, &fornecedor.Telefone)
 
 	if err != nil {
 		return nil, err

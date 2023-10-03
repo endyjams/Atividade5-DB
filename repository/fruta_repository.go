@@ -30,7 +30,7 @@ func (frutaDatabase *FrutaDatabase) GetFruta(nome string) (*model.Fruta, error) 
 }
 
 func (frutaRepository *FrutaDatabase) CreateFruta(fruta *model.Fruta) error {
-	_, err := frutaRepository.Db.Conn.Exec("INSERT INTO fruta (fruta.nome, fruta.preco) VALUES ($1, $2)", fruta.Nome, fruta.Preco)
+	_, err := frutaRepository.Db.Conn.Exec("INSERT INTO fruta (nome, preco) VALUES ($1, $2)", fruta.Nome, fruta.Preco)
 	return err
 }
 

@@ -7,7 +7,7 @@ import (
 )
 
 func setEstoqueRoute(estoqueController *controller.EstoqueController, r *gin.Engine) {
-	r.GET("obter/estoque/:nomeFruta/:nomeFornecedor", estoqueController.GetEstoque)
+	r.GET("obter/estoque/:nomeFornecedor/:nomeFruta", estoqueController.GetEstoque)
 	r.POST("/criar/estoque", estoqueController.CreateEstoque)
 	r.PUT("/atualizar/estoque", estoqueController.UpdateEstoque)
 }

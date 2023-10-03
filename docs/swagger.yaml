@@ -25,7 +25,75 @@ definitions:
 info:
   contact: {}
 paths:
-  /estoque:
+  /atualizar/estoque:
+    put:
+      description: Atualiza a quantidade de uma fruta no estoque a partir das novas
+        informaçōes sobre o estoque
+      operationId: update-estoque
+      parameters:
+      - description: Estoque
+        in: body
+        name: estoque
+        required: true
+        schema:
+          $ref: '#/definitions/model.Estoque'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Estoque atualizado com sucesso
+          schema:
+            type: string
+        "400":
+          description: Informaçōes inválidas.
+          schema:
+            type: string
+        "404":
+          description: Estoque não encontrado
+          schema:
+            type: string
+        "500":
+          description: Falha ao atualizar o estoque. Por favor, tente novamente
+          schema:
+            type: string
+      summary: Atualiza a quantidade de uma fruta no estoque
+  /atualizar/fruta:
+    put:
+      description: Atualiza as informações de uma fruta a partir do seu nome
+      operationId: update-fruta
+      parameters:
+      - description: nome
+        in: path
+        name: nome
+        required: true
+        type: string
+      - description: Fruta
+        in: body
+        name: fruta
+        required: true
+        schema:
+          $ref: '#/definitions/model.Fruta'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Fruta atualizada com sucesso
+          schema:
+            type: string
+        "400":
+          description: Informaçōes inválidas.
+          schema:
+            type: string
+        "404":
+          description: Fruta não encontrada
+          schema:
+            type: string
+        "500":
+          description: Falha ao atualizar a Fruta. Por favor, tente novamente
+          schema:
+            type: string
+      summary: Atualiza as informações de uma fruta pelo nome
+  /criar/estoque:
     post:
       description: Registra um novo estoque de fruta a partir do nome do fornecedor,
         nome da fruta e quantidade fornecida
@@ -67,41 +135,7 @@ paths:
             type: string
       summary: Registra uma nova fruta em estoque a partir do nome do fornecedor,
         nome da fruta e quantidade fornecida
-  /estoque/{nomeFruta}/{nomeFornecedor}:
-    get:
-      description: Busca a quantidade de uma fruta fornecida por um fornecedor no
-        estoque a partir do nome da fruta e nome do fornecedor
-      operationId: get-estoque
-      parameters:
-      - description: nomeFruta
-        in: path
-        name: nomeFruta
-        required: true
-        type: string
-      - description: nomeFornecedor
-        in: path
-        name: nomeFruta
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Retorna as informaçōes do estoque da Fruta
-          schema:
-            $ref: '#/definitions/model.Estoque'
-        "400":
-          description: O nome da fruta não deve ser vazio, e pode conter no máximo
-            50 caracteres
-          schema:
-            type: string
-        "404":
-          description: Fruta não encontrada em Estoque
-          schema:
-            type: string
-      summary: Busca a quantidade de uma fruta fornecida por um fornecedor no estoque
-        a partir do nome da fruta e nome do fornecedor
-  /fornecedor:
+  /criar/fornecedor:
     post:
       description: Registra um novo fornecedor a partir do seu nome e telefone
       operationId: post-fornecedor
@@ -136,34 +170,7 @@ paths:
           schema:
             type: string
       summary: Registra um novo fornecedor no sistema a partir de suas informaçōes
-  /fornecedor/{nome}:
-    get:
-      description: Retorna as informaçōes de um fornecedor a partir de seu nome
-      operationId: get-fornecedor
-      parameters:
-      - description: nome
-        in: path
-        name: nome
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Retorna as informaçōes do fornecedor
-          schema:
-            $ref: '#/definitions/model.Fornecedor'
-        "400":
-          description: O nome do fornecedor não deve ser vazio, e pode conter no máximo
-            50 caracteres
-          schema:
-            type: string
-        "404":
-          description: Fornecedor não encontrado
-          schema:
-            type: string
-      summary: Busca um fornecedor pelo nome
-  /fruta:
+  /criar/fruta:
     post:
       description: Registra uma nova fruta a partir do seu nome e preco
       operationId: post-fruta
@@ -198,7 +205,140 @@ paths:
           schema:
             type: string
       summary: Registra uma nova fruta no sistema a partir de suas informaçōes
-  /fruta/{nome}:
+  /deletar/estoque:
+    delete:
+      description: Deleta o estoque de uma fruta associada a um fornecedor
+      operationId: delete-estoque
+      parameters:
+      - description: Estoque
+        in: body
+        name: estoque
+        required: true
+        schema:
+          $ref: '#/definitions/model.Estoque'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Estoque deletado com sucesso
+          schema:
+            type: string
+        "400":
+          description: Informaçōes inválidas.
+          schema:
+            type: string
+        "404":
+          description: Estoque não encontrado
+          schema:
+            type: string
+        "500":
+          description: Falha ao deletar o estoque. Por favor, tente novamente
+          schema:
+            type: string
+      summary: Deleta um estoque a partir de suas informaçōes
+  /deletar/fruta:
+    delete:
+      description: Deleta as informações de uma fruta a partir de seu nome e preço
+      operationId: delete-fruta
+      parameters:
+      - description: nome
+        in: path
+        name: nome
+        required: true
+        type: string
+      - description: preco
+        in: path
+        name: preco
+        required: true
+        type: integer
+      - description: Fruta
+        in: body
+        name: fruta
+        required: true
+        schema:
+          $ref: '#/definitions/model.Fruta'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Fruta deletada com sucesso
+          schema:
+            type: string
+        "400":
+          description: Informaçōes inválidas.
+          schema:
+            type: string
+        "404":
+          description: Fruta não encontrada
+          schema:
+            type: string
+        "500":
+          description: Falha ao deletar a Fruta. Por favor, tente novamente
+          schema:
+            type: string
+      summary: Deleta uma fruta a partir de suas informaçōes
+  /obter/estoque/{nomeFruta}/{nomeFornecedor}:
+    get:
+      description: Busca a quantidade de uma fruta fornecida por um fornecedor no
+        estoque a partir do nome da fruta e nome do fornecedor
+      operationId: get-estoque
+      parameters:
+      - description: nomeFruta
+        in: path
+        name: nomeFruta
+        required: true
+        type: string
+      - description: nomeFornecedor
+        in: path
+        name: nomeFornecedor
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Retorna as informaçōes do estoque da Fruta
+          schema:
+            $ref: '#/definitions/model.Estoque'
+        "400":
+          description: O nome da fruta não deve ser vazio, e pode conter no máximo
+            50 caracteres
+          schema:
+            type: string
+        "404":
+          description: Fruta não encontrada em Estoque
+          schema:
+            type: string
+      summary: Busca a quantidade de uma fruta fornecida por um fornecedor no estoque
+        a partir do nome da fruta e nome do fornecedor
+  /obter/fornecedor/{nome}:
+    get:
+      description: Retorna as informaçōes de um fornecedor a partir de seu nome
+      operationId: get-fornecedor
+      parameters:
+      - description: nome
+        in: path
+        name: nome
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Retorna as informaçōes do fornecedor
+          schema:
+            $ref: '#/definitions/model.Fornecedor'
+        "400":
+          description: O nome do fornecedor não deve ser vazio, e pode conter no máximo
+            50 caracteres
+          schema:
+            type: string
+        "404":
+          description: Fornecedor não encontrado
+          schema:
+            type: string
+      summary: Busca um fornecedor pelo nome
+  /obter/fruta/{nome}:
     get:
       description: Retorna as informaçōes de uma fruta a partir de seu nome
       operationId: get-fruta

@@ -16,7 +16,108 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/estoque": {
+        "/atualizar/estoque": {
+            "put": {
+                "description": "Atualiza a quantidade de uma fruta no estoque a partir das novas informaçōes sobre o estoque",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Atualiza a quantidade de uma fruta no estoque",
+                "operationId": "update-estoque",
+                "parameters": [
+                    {
+                        "description": "Estoque",
+                        "name": "estoque",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Estoque"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estoque atualizado com sucesso",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Informaçōes inválidas.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Estoque não encontrado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Falha ao atualizar o estoque. Por favor, tente novamente",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/atualizar/fruta": {
+            "put": {
+                "description": "Atualiza as informações de uma fruta a partir do seu nome",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Atualiza as informações de uma fruta pelo nome",
+                "operationId": "update-fruta",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "nome",
+                        "name": "nome",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Fruta",
+                        "name": "fruta",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Fruta"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fruta atualizada com sucesso",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Informaçōes inválidas.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Fruta não encontrada",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Falha ao atualizar a Fruta. Por favor, tente novamente",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/criar/estoque": {
             "post": {
                 "description": "Registra um novo estoque de fruta a partir do nome do fornecedor, nome da fruta e quantidade fornecida",
                 "produces": [
@@ -75,53 +176,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/estoque/{nomeFruta}/{nomeFornecedor}": {
-            "get": {
-                "description": "Busca a quantidade de uma fruta fornecida por um fornecedor no estoque a partir do nome da fruta e nome do fornecedor",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Busca a quantidade de uma fruta fornecida por um fornecedor no estoque a partir do nome da fruta e nome do fornecedor",
-                "operationId": "get-estoque",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "nomeFruta",
-                        "name": "nomeFruta",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "nomeFornecedor",
-                        "name": "nomeFruta",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Retorna as informaçōes do estoque da Fruta",
-                        "schema": {
-                            "$ref": "#/definitions/model.Estoque"
-                        }
-                    },
-                    "400": {
-                        "description": "O nome da fruta não deve ser vazio, e pode conter no máximo 50 caracteres",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "404": {
-                        "description": "Fruta não encontrada em Estoque",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/fornecedor": {
+        "/criar/fornecedor": {
             "post": {
                 "description": "Registra um novo fornecedor a partir do seu nome e telefone",
                 "produces": [
@@ -173,46 +228,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/fornecedor/{nome}": {
-            "get": {
-                "description": "Retorna as informaçōes de um fornecedor a partir de seu nome",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Busca um fornecedor pelo nome",
-                "operationId": "get-fornecedor",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "nome",
-                        "name": "nome",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Retorna as informaçōes do fornecedor",
-                        "schema": {
-                            "$ref": "#/definitions/model.Fornecedor"
-                        }
-                    },
-                    "400": {
-                        "description": "O nome do fornecedor não deve ser vazio, e pode conter no máximo 50 caracteres",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "404": {
-                        "description": "Fornecedor não encontrado",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/fruta": {
+        "/criar/fruta": {
             "post": {
                 "description": "Registra uma nova fruta a partir do seu nome e preco",
                 "produces": [
@@ -264,7 +280,200 @@ const docTemplate = `{
                 }
             }
         },
-        "/fruta/{nome}": {
+        "/deletar/estoque": {
+            "delete": {
+                "description": "Deleta o estoque de uma fruta associada a um fornecedor",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Deleta um estoque a partir de suas informaçōes",
+                "operationId": "delete-estoque",
+                "parameters": [
+                    {
+                        "description": "Estoque",
+                        "name": "estoque",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Estoque"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estoque deletado com sucesso",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Informaçōes inválidas.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Estoque não encontrado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Falha ao deletar o estoque. Por favor, tente novamente",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/deletar/fruta": {
+            "delete": {
+                "description": "Deleta as informações de uma fruta a partir de seu nome e preço",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Deleta uma fruta a partir de suas informaçōes",
+                "operationId": "delete-fruta",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "nome",
+                        "name": "nome",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "preco",
+                        "name": "preco",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Fruta",
+                        "name": "fruta",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Fruta"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fruta deletada com sucesso",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Informaçōes inválidas.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Fruta não encontrada",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Falha ao deletar a Fruta. Por favor, tente novamente",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/obter/estoque/{nomeFruta}/{nomeFornecedor}": {
+            "get": {
+                "description": "Busca a quantidade de uma fruta fornecida por um fornecedor no estoque a partir do nome da fruta e nome do fornecedor",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Busca a quantidade de uma fruta fornecida por um fornecedor no estoque a partir do nome da fruta e nome do fornecedor",
+                "operationId": "get-estoque",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "nomeFruta",
+                        "name": "nomeFruta",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "nomeFornecedor",
+                        "name": "nomeFornecedor",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna as informaçōes do estoque da Fruta",
+                        "schema": {
+                            "$ref": "#/definitions/model.Estoque"
+                        }
+                    },
+                    "400": {
+                        "description": "O nome da fruta não deve ser vazio, e pode conter no máximo 50 caracteres",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Fruta não encontrada em Estoque",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/obter/fornecedor/{nome}": {
+            "get": {
+                "description": "Retorna as informaçōes de um fornecedor a partir de seu nome",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Busca um fornecedor pelo nome",
+                "operationId": "get-fornecedor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "nome",
+                        "name": "nome",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna as informaçōes do fornecedor",
+                        "schema": {
+                            "$ref": "#/definitions/model.Fornecedor"
+                        }
+                    },
+                    "400": {
+                        "description": "O nome do fornecedor não deve ser vazio, e pode conter no máximo 50 caracteres",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Fornecedor não encontrado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/obter/fruta/{nome}": {
             "get": {
                 "description": "Retorna as informaçōes de uma fruta a partir de seu nome",
                 "produces": [

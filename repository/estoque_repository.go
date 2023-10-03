@@ -3,7 +3,6 @@ package repository
 import (
 	"Atividade5-DB/database"
 	"Atividade5-DB/model"
-	"log"
 )
 
 type EstoqueRepository interface {
@@ -77,7 +76,7 @@ func (estoqueRepository *EstoqueDatabase) FillEstoque() error {
 	tx, err := estoqueRepository.Db.Conn.Begin()
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	defer tx.Rollback()

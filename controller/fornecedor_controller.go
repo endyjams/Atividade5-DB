@@ -92,7 +92,9 @@ func (fornecedorController *FornecedorController) CreateFornecedor(ctx *gin.Cont
 func (fornecedorController *FornecedorController) UpdateFornecedor(ctx *gin.Context) {
 	var fornecedor model.Fornecedor
 
-	if err := ctx.ShouldBindJSON(&fornecedor); err != nil {
+	errorBinding := ctx.ShouldBindJSON(&fornecedor)
+
+	if errorBinding != nil {
 		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
 		return
 	}
@@ -130,7 +132,9 @@ func (fornecedorController *FornecedorController) UpdateFornecedor(ctx *gin.Cont
 func (fornecedorController *FornecedorController) DeleteFornecedor(ctx *gin.Context) {
 	var fornecedor model.Fornecedor
 
-	if err := ctx.ShouldBindJSON(&fornecedor); err != nil {
+	errorBinding := ctx.ShouldBindJSON(&fornecedor)
+
+	if errorBinding != nil {
 		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
 		return
 	}

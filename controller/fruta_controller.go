@@ -90,7 +90,9 @@ func (frutaController *FrutaController) CreateFruta(ctx *gin.Context) {
 func (frutaController *FrutaController) UpdateFruta(ctx *gin.Context) {
 	var fruta model.Fruta
 
-	if err := ctx.ShouldBindJSON(&fruta); err != nil {
+	errorBinding := ctx.ShouldBindJSON(&fruta)
+
+	if errorBinding != nil {
 		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
 		return
 	}
@@ -127,7 +129,9 @@ func (frutaController *FrutaController) UpdateFruta(ctx *gin.Context) {
 func (frutaController *FrutaController) DeleteFruta(ctx *gin.Context) {
 	var fruta model.Fruta
 
-	if err := ctx.ShouldBindJSON(&fruta); err != nil {
+	errorBinding := ctx.ShouldBindJSON(&fruta)
+
+	if errorBinding != nil {
 		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
 		return
 	}

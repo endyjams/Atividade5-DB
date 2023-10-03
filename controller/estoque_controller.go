@@ -86,7 +86,9 @@ func (estoqueController *EstoqueController) CreateEstoque(ctx *gin.Context) {
 func (estoqueController *EstoqueController) UpdateEstoque(ctx *gin.Context) {
 	var estoque model.Estoque
 
-	if err := ctx.ShouldBindJSON(&estoque); err != nil {
+	errorBinding := ctx.ShouldBindJSON(&estoque)
+
+	if errorBinding != nil {
 		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
 		return
 	}
@@ -121,7 +123,9 @@ func (estoqueController *EstoqueController) UpdateEstoque(ctx *gin.Context) {
 func (estoqueController *EstoqueController) DeleteEstoque(ctx *gin.Context) {
 	var estoque model.Estoque
 
-	if err := ctx.ShouldBindJSON(&estoque); err != nil {
+	errorBinding := ctx.ShouldBindJSON(&estoque)
+
+	if errorBinding != nil {
 		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
 		return
 	}

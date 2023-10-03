@@ -8,6 +8,7 @@ import (
 type FrutaRepository interface {
 	GetFruta(nome string) (*model.Fruta, error)
 	CreateFruta(estoque *model.Fruta) error
+	UpdateFruta(estoque *model.Fruta) error
 }
 
 type FrutaDatabase struct {
@@ -30,5 +31,10 @@ func (frutaDatabase *FrutaDatabase) GetFruta(nome string) (*model.Fruta, error) 
 
 func (frutaRepository *FrutaDatabase) CreateFruta(fruta *model.Fruta) error {
 	_, err := frutaRepository.Db.Conn.Exec("INSERT INTO fruta (fruta.nome, fruta.preco) VALUES ($1, $2)", fruta.Nome, fruta.Preco)
+	return err
+}
+
+func (frutaRepository *FrutaDatabase) UpdateFruta(fruta *model.Fruta) error {
+	_, err := frutaRepository.Db.Conn.Exec("UPDATE fruta SET preco = $1 where nome = $2", fruta.Preco, fruta.Nome)
 	return err
 }

@@ -18,7 +18,7 @@ func (estoqueService *EstoqueService) CreateEstoque(estoque *model.Estoque) erro
 
 	estoqueExists, err := estoqueService.EstoqueRepository.GetEstoque(estoque.NomeFruta, estoque.NomeFornecedor)
 
-	if estoqueExists == nil || err != nil {
+	if estoqueExists != nil && err == nil {
 		return estoqueService.EstoqueRepository.UpdateEstoque(estoque)
 	}
 

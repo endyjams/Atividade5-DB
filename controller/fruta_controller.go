@@ -75,3 +75,39 @@ func (frutaController *FrutaController) CreateFruta(ctx *gin.Context) {
 
 	ctx.JSON(201, gin.H{"mensagem": "Fruta registrada com sucesso."})
 }
+
+// @Summary Atualiza as informações de uma fruta pelo nome
+// @Description Atualiza as informações de uma fruta a partir do seu nome
+// @ID update-fruta
+// @Produce json
+// @Param nome path string true "nome"
+// @Param fruta body model.Fruta true "Fruta"
+// @Success 200 {object} string "Fruta atualizada com sucesso"
+// @Failure 400 {object} string "Informaçōes inválidas."
+// @Failure 404 {object} string "Fruta não encontrada"
+// @Failure 500 {object} string "Falha ao atualizar a Fruta. Por favor, tente novamente"
+// @Router /fruta [put]
+func (frutaController *FrutaController) UpdateFruta(ctx *gin.Context) {
+	var fruta model.Fruta
+
+	if err := ctx.ShouldBindJSON(&fruta); err != nil {
+		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
+		return
+	}
+
+	existingFruta, err := frutaController.FrutaService.GetFruta(fruta.Nome)
+
+	if err != nil || existingFruta == nil {
+		ctx.JSON(404, gin.H{"erro": "Fruta não encontrada."})
+		return
+	}
+
+	err = frutaController.FrutaService.UpdateFruta(&fruta)
+
+	if err != nil {
+		ctx.JSON(500, gin.H{"erro": "Falha ao atualizar a Fruta. Por favor, tente novamente"})
+		return
+	}
+
+	ctx.JSON(200, gin.H{"mensagem": "Fruta atualizada com sucesso"})
+}

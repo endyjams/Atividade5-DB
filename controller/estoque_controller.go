@@ -17,7 +17,7 @@ type EstoqueController struct {
 // @ID get-estoque
 // @Produce json
 // @Param nomeFruta path string true "nomeFruta"
-// @Param nomeFruta path string true "nomeFornecedor"
+// @Param nomeFornecedor path string true "nomeFornecedor"
 // @Success 200 {object} model.Estoque "Retorna as informaçōes do estoque da Fruta"
 // @Failure 400 {object} string "O nome da fruta não deve ser vazio, e pode conter no máximo 50 caracteres"
 // @Failure 404 {object} string "Fruta não encontrada em Estoque"
@@ -71,4 +71,39 @@ func (estoqueController *EstoqueController) CreateEstoque(ctx *gin.Context) {
 	}
 
 	ctx.JSON(201, gin.H{"mensagem": "Estoque registrado com sucesso."})
+}
+
+// @Summary Atualiza a quantidade de uma fruta no estoque
+// @Description Atualiza a quantidade de uma fruta no estoque a partir das novas informaçōes sobre o estoque
+// @ID update-estoque
+// @Produce json
+// @Param estoque body model.Estoque true "Estoque"
+// @Success 200 {object} string "Estoque atualizado com sucesso"
+// @Failure 400 {object} string "Informaçōes inválidas."
+// @Failure 404 {object} string "Estoque não encontrado"
+// @Failure 500 {object} string "Falha ao atualizar o estoque. Por favor, tente novamente"
+// @Router /estoque [put]
+func (estoqueController *EstoqueController) UpdateEstoque(ctx *gin.Context) {
+	var estoque model.Estoque
+
+	if err := ctx.ShouldBindJSON(&estoque); err != nil {
+		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
+		return
+	}
+
+	existingEstoque, err := estoqueController.EstoqueService.GetEstoque(estoque.NomeFruta, estoque.NomeFornecedor)
+
+	if err != nil || existingEstoque == nil {
+		ctx.JSON(404, gin.H{"erro": "Estoque não encontrado."})
+		return
+	}
+
+	err = estoqueController.EstoqueService.UpdateEstoque(&estoque)
+
+	if err != nil {
+		ctx.JSON(500, gin.H{"erro": "Falha ao atualizar o estoque. Por favor, tente novamente"})
+		return
+	}
+
+	ctx.JSON(200, gin.H{"mensagem": "Estoque atualizado com sucesso"})
 }

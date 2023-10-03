@@ -75,3 +75,40 @@ func (fornecedorController *FornecedorController) CreateFornecedor(ctx *gin.Cont
 
 	ctx.JSON(201, gin.H{"mensagem": "Fornecedor registrado com sucesso."})
 }
+
+// @Summary Atualiza as informaçōes de um fornecedor existente
+// @Description Atualiza as informaçōes de um fornecedor a partir do seu nome
+// @ID update-fornecedor
+// @Produce json
+// @Param nome path string true "nome"
+// @Param fornecedor body model.Fornecedor true "Fornecedor"
+// @Success 200 {object} string "Fornecedor atualizado com sucesso"
+// @Failure 400 {object} string "Informaçōes inválidas."
+// @Failure 404 {object} string "Fornecedor não encontrado"
+// @Failure 500 {object} string "Falha ao atualizar o fornecedor. Por favor, tente novamente"
+// @Router /fornecedor/{nome} [put]
+
+func (fornecedorController *FornecedorController) UpdateFornecedor(ctx *gin.Context) {
+	var fornecedor model.Fornecedor
+
+	if err := ctx.ShouldBindJSON(&fornecedor); err != nil {
+		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
+		return
+	}
+
+	existingFornecedor, err := fornecedorController.FornecedorService.GetFornecedor(fornecedor.Nome)
+
+	if err != nil || existingFornecedor == nil {
+		ctx.JSON(404, gin.H{"erro": "Fornecedor não encontrado."})
+		return
+	}
+
+	err = fornecedorController.FornecedorService.UpdateFornecedor(&fornecedor)
+
+	if err != nil {
+		ctx.JSON(500, gin.H{"erro": "Falha ao atualizar o fornecedor. Por favor, tente novamente"})
+		return
+	}
+
+	ctx.JSON(200, gin.H{"mensagem": "Fornecedor atualizado com sucesso"})
+}

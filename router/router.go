@@ -9,21 +9,18 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @title Database API example
+// @title DB - Atividade 5
 // @version 1.0
 // @description última parte do trabalho para disciplina banco de dados
 // @host localhost:8000
+
 func NewRouter(frutaController *controller.FrutaController, fornecedorController *controller.FornecedorController, estoqueController *controller.EstoqueController) *gin.Engine {
 	r := gin.Default()
 	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	r.GET("/fruta/:nome", frutaController.GetFruta)
-	r.POST("/fruta", frutaController.CreateFruta)
+	setFrutaRoute(frutaController, r)
+	setFornecedorRoute(fornecedorController, r)
+	setEstoqueRoute(estoqueController, r)
 
-	r.GET("/fornecedor/:nome", fornecedorController.GetFornecedor)
-	r.POST("/fornecedor", fornecedorController.CreateFornecedor)
-
-	r.GET("/estoque/:nomeFruta/:nomeFornecedor", estoqueController.GetEstoque)
-	r.POST("/estoque", estoqueController.CreateEstoque)
 	return r
 }

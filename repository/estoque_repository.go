@@ -37,23 +37,21 @@ func (estoqueDatabase *EstoqueDatabase) GetEstoque(nomeFruta string, nomeFornece
 }
 
 func (estoqueRepository *EstoqueDatabase) CreateEstoque(estoque *model.Estoque) error {
-	query := `WITH id_fru AS (SELECT id_fruta FROM fruta WHERE fruta.nome = $1),` +
-		` id_forn AS (SELECT id_fornecedor FROM fornecedor WHERE fornecedor.nome = $2)` +
+	query :=
 		` INSERT INTO estoque` +
-		` (quantidade, id_fruta, id_fornecedor)` +
-		` VALUES ($3, id_fru, id_forn)`
+			` (quantidade, id_fruta, id_fornecedor)` +
+			` VALUES ($3, (SELECT id_fruta FROM fruta WHERE fruta.nome = $1), (SELECT id_fornecedor FROM fornecedor WHERE fornecedor.nome = $2))`
 
 	_, err := estoqueRepository.Db.Conn.Exec(query, estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
 	return err
 }
 
 func (estoqueRepository *EstoqueDatabase) UpdateEstoque(estoque *model.Estoque) error {
-	query := `WITH id_fru AS (SELECT id_fruta FROM fruta WHERE fruta.nome = $1),` +
-		` id_forn AS (SELECT id_fornecedor FROM fornecedor WHERE fornecedor.nome = $2)` +
+	query :=
 		` UPDATE estoque` +
-		` SET quantidade = $3` +
-		` WHERE id_fornecedor = id_forn` +
-		` AND id_fruta = id_fru`
+			` SET quantidade = $3` +
+			` WHERE id_fornecedor = (SELECT id_fornecedor FROM fornecedor WHERE fornecedor.nome = $2)` +
+			` AND id_fruta = (SELECT id_fruta FROM fruta WHERE fruta.nome = $1)`
 
 	_, err := estoqueRepository.Db.Conn.Exec(query, estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
 

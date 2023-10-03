@@ -20,3 +20,7 @@ func (estoqueService *EstoqueService) CreateEstoque(estoque *model.Estoque) erro
 func (estoqueService *EstoqueService) UpdateEstoque(estoque *model.Estoque) error {
 	return estoqueService.EstoqueRepository.UpdateEstoque(estoque)
 }
+
+func (estoqueService *EstoqueService) DeleteEstoque(estoque *model.Estoque) error {
+	return estoqueService.EstoqueRepository.DeleteEstoque(estoque)
+}

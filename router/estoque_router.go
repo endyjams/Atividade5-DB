@@ -10,4 +10,5 @@ func setEstoqueRoute(estoqueController *controller.EstoqueController, r *gin.Eng
 	r.GET("obter/estoque/:nomeFornecedor/:nomeFruta", estoqueController.GetEstoque)
 	r.POST("/criar/estoque", estoqueController.CreateEstoque)
 	r.PUT("/atualizar/estoque", estoqueController.UpdateEstoque)
+	r.DELETE("/deletar/estoque", estoqueController.DeleteEstoque)
 }

@@ -9,6 +9,7 @@ type EstoqueRepository interface {
 	GetEstoque(nomeFruta string, nomeFornecedor string) (*model.Estoque, error)
 	CreateEstoque(estoque *model.Estoque) error
 	UpdateEstoque(estoque *model.Estoque) error
+	DeleteEstoque(estoque *model.Estoque) error
 }
 
 type EstoqueDatabase struct {
@@ -51,6 +52,18 @@ func (estoqueRepository *EstoqueDatabase) UpdateEstoque(estoque *model.Estoque) 
 		` UPDATE estoque` +
 			` SET quantidade = $3` +
 			` WHERE id_fornecedor = (SELECT id_fornecedor FROM fornecedor WHERE fornecedor.nome = $2)` +
+			` AND id_fruta = (SELECT id_fruta FROM fruta WHERE fruta.nome = $1)`
+
+	_, err := estoqueRepository.Db.Conn.Exec(query, estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
+
+	return err
+}
+
+func (estoqueRepository *EstoqueDatabase) DeleteEstoque(estoque *model.Estoque) error {
+	query :=
+		` DELETE FROM estoque` +
+			` WHERE quantidade = $3` +
+			` AND id_fornecedor = (SELECT id_fornecedor FROM fornecedor WHERE fornecedor.nome = $2)` +
 			` AND id_fruta = (SELECT id_fruta FROM fruta WHERE fruta.nome = $1)`
 
 	_, err := estoqueRepository.Db.Conn.Exec(query, estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)

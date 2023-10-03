@@ -107,3 +107,38 @@ func (estoqueController *EstoqueController) UpdateEstoque(ctx *gin.Context) {
 
 	ctx.JSON(200, gin.H{"mensagem": "Estoque atualizado com sucesso"})
 }
+
+// @Summary Deleta um estoque a partir de suas informaçōes
+// @Description Deleta o estoque de uma fruta associada a um fornecedor
+// @ID delete-estoque
+// @Produce json
+// @Param estoque body model.Estoque true "Estoque"
+// @Success 200 {object} string "Estoque deletado com sucesso"
+// @Failure 400 {object} string "Informaçōes inválidas."
+// @Failure 404 {object} string "Estoque não encontrado"
+// @Failure 500 {object} string "Falha ao deletar o estoque. Por favor, tente novamente"
+// @Router /deletar/estoque [delete]
+func (estoqueController *EstoqueController) DeleteEstoque(ctx *gin.Context) {
+	var estoque model.Estoque
+
+	if err := ctx.ShouldBindJSON(&estoque); err != nil {
+		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
+		return
+	}
+
+	existingEstoque, err := estoqueController.EstoqueService.GetEstoque(estoque.NomeFruta, estoque.NomeFornecedor)
+
+	if err != nil || existingEstoque == nil {
+		ctx.JSON(404, gin.H{"erro": "Estoque não encontrado."})
+		return
+	}
+
+	err = estoqueController.EstoqueService.DeleteEstoque(&estoque)
+
+	if err != nil {
+		ctx.JSON(500, gin.H{"erro": "Falha ao deletar o estoque. Por favor, tente novamente"})
+		return
+	}
+
+	ctx.JSON(200, gin.H{"mensagem": "Estoque deletado com sucesso"})
+}

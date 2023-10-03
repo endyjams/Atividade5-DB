@@ -35,6 +35,6 @@ func (frutaRepository *FrutaDatabase) CreateFruta(fruta *model.Fruta) error {
 }
 
 func (frutaRepository *FrutaDatabase) UpdateFruta(fruta *model.Fruta) error {
-	_, err := frutaRepository.Db.Conn.Exec("UPDATE fruta SET preco = $1 where nome = $2", fruta.Preco, fruta.Nome)
+	_, err := frutaRepository.Db.Conn.Exec("UPDATE fruta SET preco = $2 where nome = $1", fruta.Nome, fruta.Preco)
 	return err
 }

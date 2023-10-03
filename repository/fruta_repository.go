@@ -9,6 +9,7 @@ type FrutaRepository interface {
 	GetFruta(nome string) (*model.Fruta, error)
 	CreateFruta(estoque *model.Fruta) error
 	UpdateFruta(estoque *model.Fruta) error
+	DeleteFruta(estoque *model.Fruta) error
 }
 
 type FrutaDatabase struct {
@@ -36,5 +37,10 @@ func (frutaRepository *FrutaDatabase) CreateFruta(fruta *model.Fruta) error {
 
 func (frutaRepository *FrutaDatabase) UpdateFruta(fruta *model.Fruta) error {
 	_, err := frutaRepository.Db.Conn.Exec("UPDATE fruta SET preco = $2 where nome = $1", fruta.Nome, fruta.Preco)
+	return err
+}
+
+func (frutaRepository *FrutaDatabase) DeleteFruta(fruta *model.Fruta) error {
+	_, err := frutaRepository.Db.Conn.Exec("DELETE FROM fruta WHERE preco = $2 AND nome = $1", fruta.Nome, fruta.Preco)
 	return err
 }

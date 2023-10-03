@@ -111,3 +111,40 @@ func (frutaController *FrutaController) UpdateFruta(ctx *gin.Context) {
 
 	ctx.JSON(200, gin.H{"mensagem": "Fruta atualizada com sucesso"})
 }
+
+// @Summary Deleta uma fruta a partir de suas informaçōes
+// @Description Deleta as informações de uma fruta a partir de seu nome e preço
+// @ID delete-fruta
+// @Produce json
+// @Param nome path string true "nome"
+// @Param preco path int true "preco"
+// @Param fruta body model.Fruta true "Fruta"
+// @Success 200 {object} string "Fruta deletada com sucesso"
+// @Failure 400 {object} string "Informaçōes inválidas."
+// @Failure 404 {object} string "Fruta não encontrada"
+// @Failure 500 {object} string "Falha ao deletar a Fruta. Por favor, tente novamente"
+// @Router /deletar/fruta [delete]
+func (frutaController *FrutaController) DeleteFruta(ctx *gin.Context) {
+	var fruta model.Fruta
+
+	if err := ctx.ShouldBindJSON(&fruta); err != nil {
+		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
+		return
+	}
+
+	existingFruta, err := frutaController.FrutaService.GetFruta(fruta.Nome)
+
+	if err != nil || existingFruta == nil {
+		ctx.JSON(404, gin.H{"erro": "Fruta não encontrada."})
+		return
+	}
+
+	err = frutaController.FrutaService.DeleteFruta(&fruta)
+
+	if err != nil {
+		ctx.JSON(500, gin.H{"erro": "Falha ao deletar a Fruta. Por favor, tente novamente"})
+		return
+	}
+
+	ctx.JSON(200, gin.H{"mensagem": "Fruta deletada com sucesso"})
+}

@@ -20,3 +20,7 @@ func (frutaService *FrutaService) CreateFruta(fruta *model.Fruta) error {
 func (frutaService *FrutaService) UpdateFruta(fruta *model.Fruta) error {
 	return frutaService.FrutaRepository.UpdateFruta(fruta)
 }
+
+func (frutaService *FrutaService) DeleteFruta(fruta *model.Fruta) error {
+	return frutaService.FrutaRepository.DeleteFruta(fruta)
+}

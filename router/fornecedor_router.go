@@ -10,4 +10,5 @@ func setFornecedorRoute(fornecedorController *controller.FornecedorController, r
 	r.GET("/obter/fornecedor/:nome", fornecedorController.GetFornecedor)
 	r.POST("/criar/fornecedor", fornecedorController.CreateFornecedor)
 	r.PUT("/atualizar/fornecedor", fornecedorController.UpdateFornecedor)
+	r.DELETE("/deletar/fornecedor", fornecedorController.DeleteFornecedor)
 }

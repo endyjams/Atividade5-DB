@@ -9,6 +9,7 @@ type FornecedorRepository interface {
 	GetFornecedor(nome string) (*model.Fornecedor, error)
 	CreateFornecedor(estoque *model.Fornecedor) error
 	UpdateFornecedor(estoque *model.Fornecedor) error
+	DeleteFornecedor(estoque *model.Fornecedor) error
 }
 
 type FornecedorDatabase struct {
@@ -37,6 +38,12 @@ func (fornecedorRepository *FornecedorDatabase) CreateFornecedor(fornecedor *mod
 
 func (fornecedorRepository *FornecedorDatabase) UpdateFornecedor(fornecedor *model.Fornecedor) error {
 	_, err := fornecedorRepository.Db.Conn.Exec("UPDATE fornecedor set telefone = $2 where nome = $1", fornecedor.Nome, fornecedor.Telefone)
+
+	return err
+}
+
+func (fornecedorRepository *FornecedorDatabase) DeleteFornecedor(fornecedor *model.Fornecedor) error {
+	_, err := fornecedorRepository.Db.Conn.Exec("DELETE FROM fornecedor where nome = $1 AND telefone = $2", fornecedor.Nome, fornecedor.Telefone)
 
 	return err
 }

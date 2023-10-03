@@ -81,12 +81,13 @@ func (fornecedorController *FornecedorController) CreateFornecedor(ctx *gin.Cont
 // @ID update-fornecedor
 // @Produce json
 // @Param nome path string true "nome"
+// @Param telefone path string true "telefone"
 // @Param fornecedor body model.Fornecedor true "Fornecedor"
 // @Success 200 {object} string "Fornecedor atualizado com sucesso"
 // @Failure 400 {object} string "Informaçōes inválidas."
 // @Failure 404 {object} string "Fornecedor não encontrado"
 // @Failure 500 {object} string "Falha ao atualizar o fornecedor. Por favor, tente novamente"
-// @Router /atualizar/fornecedor/{nome} [put]
+// @Router /atualizar/fornecedor [put]
 
 func (fornecedorController *FornecedorController) UpdateFornecedor(ctx *gin.Context) {
 	var fornecedor model.Fornecedor
@@ -111,4 +112,42 @@ func (fornecedorController *FornecedorController) UpdateFornecedor(ctx *gin.Cont
 	}
 
 	ctx.JSON(200, gin.H{"mensagem": "Fornecedor atualizado com sucesso"})
+}
+
+// @Summary Deleta as informaçōes de um fornecedor existente
+// @Description Deleta as informaçōes de um fornecedor a partir de suas informaçōes
+// @ID delete-fornecedor
+// @Produce json
+// @Param nome path string true "nome"
+// @Param telefone path string true "nome"
+// @Param fornecedor body model.Fornecedor true "Fornecedor"
+// @Success 200 {object} string "Fornecedor deletado com sucesso"
+// @Failure 400 {object} string "Informaçōes inválidas."
+// @Failure 404 {object} string "Fornecedor não encontrado"
+// @Failure 500 {object} string "Falha ao deletar o fornecedor. Por favor, tente novamente"
+// @Router /deletar/fornecedor [delete]
+
+func (fornecedorController *FornecedorController) DeleteFornecedor(ctx *gin.Context) {
+	var fornecedor model.Fornecedor
+
+	if err := ctx.ShouldBindJSON(&fornecedor); err != nil {
+		ctx.JSON(400, gin.H{"erro": "Informaçōes inválidas."})
+		return
+	}
+
+	existingFornecedor, err := fornecedorController.FornecedorService.GetFornecedor(fornecedor.Nome)
+
+	if err != nil || existingFornecedor == nil {
+		ctx.JSON(404, gin.H{"erro": "Fornecedor não encontrado."})
+		return
+	}
+
+	err = fornecedorController.FornecedorService.DeleteFornecedor(&fornecedor)
+
+	if err != nil {
+		ctx.JSON(500, gin.H{"erro": "Falha ao deletar o fornecedor. Por favor, tente novamente"})
+		return
+	}
+
+	ctx.JSON(200, gin.H{"mensagem": "Fornecedor deletado com sucesso"})
 }

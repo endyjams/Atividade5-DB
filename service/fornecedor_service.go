@@ -20,3 +20,7 @@ func (fornecedorService *FornecedorService) CreateFornecedor(fornecedor *model.F
 func (fornecedorService *FornecedorService) UpdateFornecedor(fornecedor *model.Fornecedor) error {
 	return fornecedorService.FornecedorRepository.UpdateFornecedor(fornecedor)
 }
+
+func (fornecedorService *FornecedorService) DeleteFornecedor(fornecedor *model.Fornecedor) error {
+	return fornecedorService.FornecedorRepository.DeleteFornecedor(fornecedor)
+}

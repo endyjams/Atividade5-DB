@@ -29,6 +29,6 @@ func (fornecedorDatabase *FornecedorDatabase) GetFornecedor(nome string) (*model
 }
 
 func (fornecedorRepository *FornecedorDatabase) CreateFornecedor(fornecedor *model.Fornecedor) error {
-	_, err := fornecedorRepository.Db.Conn.Exec("INSERT INTO users (cpf, name, dateOfBirth) VALUES ($1, $2, $3)", fornecedor.Nome, fornecedor.Telefone)
+	_, err := fornecedorRepository.Db.Conn.Exec("INSERT INTO fornecedor (nome, telefone) VALUES ($1, $2)", fornecedor.Nome, fornecedor.Telefone)
 	return err
 }

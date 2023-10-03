@@ -7,7 +7,7 @@ import (
 )
 
 func setFornecedorRoute(fornecedorController *controller.FornecedorController, r *gin.Engine) {
-	r.GET("/fornecedor/:nome", fornecedorController.GetFornecedor)
-	r.POST("/fornecedor", fornecedorController.CreateFornecedor)
-	r.PUT("/fornecedor", fornecedorController.UpdateFornecedor)
+	r.GET("/obter/fornecedor/:nome", fornecedorController.GetFornecedor)
+	r.POST("/criar/fornecedor", fornecedorController.CreateFornecedor)
+	r.PUT("/atualizar/fornecedor", fornecedorController.UpdateFornecedor)
 }

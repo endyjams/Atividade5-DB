@@ -7,7 +7,7 @@ import (
 )
 
 func setFrutaRoute(frutaController *controller.FrutaController, r *gin.Engine) {
-	r.GET("/fruta/:nome", frutaController.GetFruta)
-	r.POST("/fruta", frutaController.CreateFruta)
-	r.PUT("/fruta", frutaController.UpdateFruta)
+	r.GET("/obter/fruta/:nome", frutaController.GetFruta)
+	r.POST("/criar/fruta", frutaController.CreateFruta)
+	r.PUT("/atualizar/fruta", frutaController.UpdateFruta)
 }

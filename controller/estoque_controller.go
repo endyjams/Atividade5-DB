@@ -21,7 +21,7 @@ type EstoqueController struct {
 // @Success 200 {object} model.Estoque "Retorna as informaçōes do estoque da Fruta"
 // @Failure 400 {object} string "O nome da fruta não deve ser vazio, e pode conter no máximo 50 caracteres"
 // @Failure 404 {object} string "Fruta não encontrada em Estoque"
-// @Router /estoque/{nomeFruta}/{nomeFornecedor} [get]
+// @Router /obter/estoque/{nomeFruta}/{nomeFornecedor} [get]
 func (estoqueController *EstoqueController) GetEstoque(ctx *gin.Context) {
 	nomeFruta := ctx.Param("nomeFruta")
 	nomeFornecedor := ctx.Param("nomeFornecedor")
@@ -52,7 +52,7 @@ func (estoqueController *EstoqueController) GetEstoque(ctx *gin.Context) {
 // @Failure 400 {object} string "Informaçōes inválidas."
 // @Failure 409 {object} string "Uma fruta com esse nome já existe."
 // @Failure 500 {object} string "Falha ao registrar Fruta. Por favor, tente novamente"
-// @Router /estoque [post]
+// @Router /criar/estoque [post]
 func (estoqueController *EstoqueController) CreateEstoque(ctx *gin.Context) {
 	var estoque model.Estoque
 
@@ -82,7 +82,7 @@ func (estoqueController *EstoqueController) CreateEstoque(ctx *gin.Context) {
 // @Failure 400 {object} string "Informaçōes inválidas."
 // @Failure 404 {object} string "Estoque não encontrado"
 // @Failure 500 {object} string "Falha ao atualizar o estoque. Por favor, tente novamente"
-// @Router /estoque [put]
+// @Router /atualizar/estoque [put]
 func (estoqueController *EstoqueController) UpdateEstoque(ctx *gin.Context) {
 	var estoque model.Estoque
 

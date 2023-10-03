@@ -19,7 +19,7 @@ type FrutaController struct {
 // @Success 200 {object} model.Fruta "Retorna as informaçōes da fruta"
 // @Failure 400 {object} string "O nome da fruta não deve ser vazio, e pode conter no máximo 50 caracteres"
 // @Failure 404 {object} string "Fruta não encontrada"
-// @Router /fruta/{nome} [get]
+// @Router /obter/fruta/{nome} [get]
 func (frutaController *FrutaController) GetFruta(ctx *gin.Context) {
 	nome := ctx.Param("nome")
 
@@ -48,7 +48,7 @@ func (frutaController *FrutaController) GetFruta(ctx *gin.Context) {
 // @Failure 400 {object} string "Informaçōes inválidas."
 // @Failure 409 {object} string "Uma fruta com esse nome já existe."
 // @Failure 500 {object} string "Falha ao registrar Fruta. Por favor, tente novamente"
-// @Router /fruta [post]
+// @Router /criar/fruta [post]
 func (frutaController *FrutaController) CreateFruta(ctx *gin.Context) {
 	var fruta model.Fruta
 
@@ -86,7 +86,7 @@ func (frutaController *FrutaController) CreateFruta(ctx *gin.Context) {
 // @Failure 400 {object} string "Informaçōes inválidas."
 // @Failure 404 {object} string "Fruta não encontrada"
 // @Failure 500 {object} string "Falha ao atualizar a Fruta. Por favor, tente novamente"
-// @Router /fruta [put]
+// @Router /atualizar/fruta [put]
 func (frutaController *FrutaController) UpdateFruta(ctx *gin.Context) {
 	var fruta model.Fruta
 

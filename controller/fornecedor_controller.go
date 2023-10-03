@@ -19,7 +19,7 @@ type FornecedorController struct {
 // @Success 200 {object} model.Fornecedor "Retorna as informaçōes do fornecedor"
 // @Failure 400 {object} string "O nome do fornecedor não deve ser vazio, e pode conter no máximo 50 caracteres"
 // @Failure 404 {object} string "Fornecedor não encontrado"
-// @Router /fornecedor/{nome} [get]
+// @Router /obter/fornecedor/{nome} [get]
 func (fornecedorController *FornecedorController) GetFornecedor(ctx *gin.Context) {
 	nome := ctx.Param("nome")
 
@@ -48,7 +48,7 @@ func (fornecedorController *FornecedorController) GetFornecedor(ctx *gin.Context
 // @Failure 400 {object} string "Informaçōes inválidas."
 // @Failure 409 {object} string "Um fornecedor com esse nome já existe."
 // @Failure 500 {object} string "Falha ao registrar Fornecedor. Por favor, tente novamente"
-// @Router /fornecedor [post]
+// @Router /criar/fornecedor [post]
 func (fornecedorController *FornecedorController) CreateFornecedor(ctx *gin.Context) {
 	var fornecedor model.Fornecedor
 
@@ -86,7 +86,7 @@ func (fornecedorController *FornecedorController) CreateFornecedor(ctx *gin.Cont
 // @Failure 400 {object} string "Informaçōes inválidas."
 // @Failure 404 {object} string "Fornecedor não encontrado"
 // @Failure 500 {object} string "Falha ao atualizar o fornecedor. Por favor, tente novamente"
-// @Router /fornecedor/{nome} [put]
+// @Router /atualizar/fornecedor/{nome} [put]
 
 func (fornecedorController *FornecedorController) UpdateFornecedor(ctx *gin.Context) {
 	var fornecedor model.Fornecedor

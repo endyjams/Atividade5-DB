@@ -3,6 +3,7 @@ package repository
 import (
 	"Atividade5-DB/database"
 	"Atividade5-DB/model"
+	"log"
 )
 
 type EstoqueRepository interface {
@@ -10,6 +11,7 @@ type EstoqueRepository interface {
 	CreateEstoque(estoque *model.Estoque) error
 	UpdateEstoque(estoque *model.Estoque) error
 	DeleteEstoque(estoque *model.Estoque) error
+	FillEstoque() error
 }
 
 type EstoqueDatabase struct {
@@ -67,6 +69,52 @@ func (estoqueRepository *EstoqueDatabase) DeleteEstoque(estoque *model.Estoque) 
 			` AND id_fruta = (SELECT id_fruta FROM fruta WHERE fruta.nome = $1)`
 
 	_, err := estoqueRepository.Db.Conn.Exec(query, estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
+
+	return err
+}
+
+func (estoqueRepository *EstoqueDatabase) FillEstoque() error {
+	tx, err := estoqueRepository.Db.Conn.Begin()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer tx.Rollback()
+
+	transaction := `WITH FrutaEsgotada AS (
+		SELECT id_fruta 
+		FROM Fruta
+		WHERE id_fruta NOT IN (SELECT id_fruta FROM Estoque)
+		LIMIT 1
+	),
+	FornecedorBaixoEstoque AS (
+		SELECT id_fornecedor
+		FROM Estoque
+		GROUP BY id_fornecedor
+		ORDER BY SUM(quantidade) ASC
+		LIMIT 1
+	)
+	
+	INSERT INTO Estoque 
+	(quantidade, id_fruta, id_fornecedor)
+	VALUES (
+			10, 
+			(SELECT id_fruta FROM FrutaEsgotada), 
+			(SELECT id_fornecedor FROM FornecedorBaixoEstoque)
+		   )`
+
+	_, err = tx.Exec(transaction)
+
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+
+	if err != nil {
+		return err
+	}
 
 	return err
 }

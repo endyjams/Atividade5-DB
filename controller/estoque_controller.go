@@ -146,3 +146,21 @@ func (estoqueController *EstoqueController) DeleteEstoque(ctx *gin.Context) {
 
 	ctx.JSON(200, gin.H{"mensagem": "Estoque deletado com sucesso"})
 }
+
+// @Summary Preenche o estoque de alguma fruta que esgotou adicionando 10
+// @Description Preencher o estoque de fruta esgotada com 10
+// @ID fill-estoque
+// @Produce json
+// @Success 201 {object} string "Estoque preenchido com sucesso"
+// @Failure 500 {object} string "Falha ao preencher o estoque. Não há frutas esgotadas"
+// @Router /preencher/estoque [post]
+func (estoqueController *EstoqueController) FillEstoque(ctx *gin.Context) {
+	var err = estoqueController.EstoqueService.FillEstoque()
+
+	if err != nil {
+		ctx.JSON(500, gin.H{"erro": "Falha ao preencher estoque. Provavelmente não há frutas esgotadas"})
+		return
+	}
+
+	ctx.JSON(200, gin.H{"mensagem": "Estoque preenchido com sucesso"})
+}

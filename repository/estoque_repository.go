@@ -8,6 +8,7 @@ import (
 type EstoqueRepository interface {
 	GetEstoque(nomeFruta string, nomeFornecedor string) (*model.Estoque, error)
 	CreateEstoque(estoque *model.Estoque) error
+	UpdateEstoque(estoque *model.Estoque) error
 }
 
 type EstoqueDatabase struct {
@@ -36,6 +37,25 @@ func (estoqueDatabase *EstoqueDatabase) GetEstoque(nomeFruta string, nomeFornece
 }
 
 func (estoqueRepository *EstoqueDatabase) CreateEstoque(estoque *model.Estoque) error {
-	_, err := estoqueRepository.Db.Conn.Exec("INSERT INTO users (cpf, name, dateOfBirth) VALUES ($1, $2, $3)", estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
+	query := `WITH id_fru AS (SELECT id_fruta FROM fruta WHERE fruta.nome = $1),` +
+		` id_forn AS (SELECT id_fornecedor FROM fornecedor WHERE fornecedor.nome = $2)` +
+		` INSERT INTO estoque` +
+		` (quantidade, id_fruta, id_fornecedor)` +
+		` VALUES ($3, id_fru, id_forn)`
+
+	_, err := estoqueRepository.Db.Conn.Exec(query, estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
+	return err
+}
+
+func (estoqueRepository *EstoqueDatabase) UpdateEstoque(estoque *model.Estoque) error {
+	query := `WITH id_fru AS (SELECT id_fruta FROM fruta WHERE fruta.nome = $1),` +
+		` id_forn AS (SELECT id_fornecedor FROM fornecedor WHERE fornecedor.nome = $2)` +
+		` UPDATE estoque` +
+		` SET quantidade = $3` +
+		` WHERE id_fornecedor = id_forn` +
+		` AND id_fruta = id_fru`
+
+	_, err := estoqueRepository.Db.Conn.Exec(query, estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
+
 	return err
 }

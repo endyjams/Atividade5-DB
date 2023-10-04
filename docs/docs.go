@@ -26,6 +26,27 @@ const docTemplate = `{
                 "operationId": "update-estoque",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "NomeFruta",
+                        "name": "nomeFruta",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "NomeFornecedor",
+                        "name": "nomeFornecedor",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Quantidade",
+                        "name": "quantidade",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Estoque",
                         "name": "estoque",
                         "in": "body",
@@ -63,6 +84,67 @@ const docTemplate = `{
                 }
             }
         },
+        "/atualizar/fornecedor": {
+            "put": {
+                "description": "Atualiza as informaçōes de um fornecedor a partir do seu nome",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Atualiza as informaçōes de um fornecedor existente",
+                "operationId": "update-fornecedor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "nome",
+                        "name": "nome",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "telefone",
+                        "name": "telefone",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Fornecedor",
+                        "name": "fornecedor",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Fornecedor"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fornecedor atualizado com sucesso",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Informaçōes inválidas.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Fornecedor não encontrado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Falha ao atualizar o fornecedor. Por favor, tente novamente",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/atualizar/fruta": {
             "put": {
                 "description": "Atualiza as informações de uma fruta a partir do seu nome",
@@ -75,6 +157,13 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "nome",
+                        "name": "nome",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "preco",
                         "name": "nome",
                         "in": "path",
                         "required": true
@@ -290,6 +379,27 @@ const docTemplate = `{
                 "operationId": "delete-estoque",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "NomeFruta",
+                        "name": "nomeFruta",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "NomeFornecedor",
+                        "name": "nomeFornecedor",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Quantidade",
+                        "name": "quantidade",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Estoque",
                         "name": "estoque",
                         "in": "body",
@@ -388,13 +498,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/obter/estoque/{nomeFruta}/{nomeFornecedor}": {
+        "/obter/estoque/{nomeFornecedor}/{nomeFruta}": {
             "get": {
                 "description": "Busca a quantidade de uma fruta fornecida por um fornecedor no estoque a partir do nome da fruta e nome do fornecedor",
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Busca a quantidade de uma fruta fornecida por um fornecedor no estoque a partir do nome da fruta e nome do fornecedor",
+                "summary": "Busca a quantidade de uma fruta em estoque associada a um fornecedor",
                 "operationId": "get-estoque",
                 "parameters": [
                     {
@@ -505,6 +615,30 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Fruta não encontrada",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/preencher/estoque": {
+            "post": {
+                "description": "Preencher o estoque de fruta esgotada com 10",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Preenche o estoque de alguma fruta que esgotou adicionando 10",
+                "operationId": "fill-estoque",
+                "responses": {
+                    "201": {
+                        "description": "Estoque preenchido com sucesso",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Falha ao preencher o estoque. Não há frutas esgotadas",
                         "schema": {
                             "type": "string"
                         }

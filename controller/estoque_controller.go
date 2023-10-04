@@ -12,7 +12,7 @@ type EstoqueController struct {
 	EstoqueService *service.EstoqueService
 }
 
-// @Summary Busca a quantidade de uma fruta fornecida por um fornecedor no estoque a partir do nome da fruta e nome do fornecedor
+// @Summary Busca a quantidade de uma fruta em estoque associada a um fornecedor
 // @Description Busca a quantidade de uma fruta fornecida por um fornecedor no estoque a partir do nome da fruta e nome do fornecedor
 // @ID get-estoque
 // @Produce json

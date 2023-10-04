@@ -81,7 +81,8 @@ func (estoqueRepository *EstoqueDatabase) FillEstoque() error {
 
 	defer tx.Rollback()
 
-	transaction := `WITH FrutaEsgotada AS (
+	transaction :=
+		`WITH FrutaEsgotada AS (
 		SELECT id_fruta 
 		FROM Fruta
 		WHERE id_fruta NOT IN (SELECT id_fruta FROM Estoque)

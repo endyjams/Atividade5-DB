@@ -2,6 +2,7 @@ package main
 
 import (
 	"Atividade5-DB/database"
+	_ "Atividade5-DB/docs"
 	"fmt"
 	"log"
 	"os"

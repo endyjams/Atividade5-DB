@@ -3,6 +3,7 @@ package repository
 import (
 	"Atividade5-DB/database"
 	"Atividade5-DB/model"
+	"errors"
 )
 
 type FrutaRepository interface {
@@ -36,11 +37,25 @@ func (frutaRepository *FrutaDatabase) CreateFruta(fruta *model.Fruta) error {
 }
 
 func (frutaRepository *FrutaDatabase) UpdateFruta(fruta *model.Fruta) error {
-	_, err := frutaRepository.Db.Conn.Exec("UPDATE fruta SET preco = $2 where nome = $1", fruta.Nome, fruta.Preco)
+	result, err := frutaRepository.Db.Conn.Exec("UPDATE fruta SET preco = $2 where nome = $1", fruta.Nome, fruta.Preco)
+
+	rows, err := result.RowsAffected()
+
+	if rows == 0 {
+		return errors.New("erro: nenhuma linha foi afetada")
+	}
+
 	return err
 }
 
 func (frutaRepository *FrutaDatabase) DeleteFruta(fruta *model.Fruta) error {
-	_, err := frutaRepository.Db.Conn.Exec("DELETE FROM fruta WHERE preco = $2 AND nome = $1", fruta.Nome, fruta.Preco)
+	result, err := frutaRepository.Db.Conn.Exec("DELETE FROM fruta WHERE preco = $2 AND nome = $1", fruta.Nome, fruta.Preco)
+
+	rows, err := result.RowsAffected()
+
+	if rows == 0 {
+		return errors.New("erro: nenhuma linha foi afetada")
+	}
+
 	return err
 }

@@ -3,6 +3,7 @@ package repository
 import (
 	"Atividade5-DB/database"
 	model "Atividade5-DB/model"
+	"errors"
 )
 
 type FornecedorRepository interface {
@@ -37,13 +38,25 @@ func (fornecedorRepository *FornecedorDatabase) CreateFornecedor(fornecedor *mod
 }
 
 func (fornecedorRepository *FornecedorDatabase) UpdateFornecedor(fornecedor *model.Fornecedor) error {
-	_, err := fornecedorRepository.Db.Conn.Exec("UPDATE fornecedor set telefone = $2 where nome = $1", fornecedor.Nome, fornecedor.Telefone)
+	result, err := fornecedorRepository.Db.Conn.Exec("UPDATE fornecedor set telefone = $2 where nome = $1", fornecedor.Nome, fornecedor.Telefone)
+
+	rows, err := result.RowsAffected()
+
+	if rows == 0 {
+		return errors.New("erro: nenhuma linha foi afetada")
+	}
 
 	return err
 }
 
 func (fornecedorRepository *FornecedorDatabase) DeleteFornecedor(fornecedor *model.Fornecedor) error {
-	_, err := fornecedorRepository.Db.Conn.Exec("DELETE FROM fornecedor where nome = $1 AND telefone = $2", fornecedor.Nome, fornecedor.Telefone)
+	result, err := fornecedorRepository.Db.Conn.Exec("DELETE FROM fornecedor where nome = $1 AND telefone = $2", fornecedor.Nome, fornecedor.Telefone)
+
+	rows, err := result.RowsAffected()
+
+	if rows == 0 {
+		return errors.New("erro: nenhuma linha foi afetada")
+	}
 
 	return err
 }

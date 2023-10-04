@@ -3,6 +3,7 @@ package repository
 import (
 	"Atividade5-DB/database"
 	"Atividade5-DB/model"
+	"errors"
 )
 
 type EstoqueRepository interface {
@@ -45,6 +46,7 @@ func (estoqueRepository *EstoqueDatabase) CreateEstoque(estoque *model.Estoque) 
 			` VALUES ($3, (SELECT id_fruta FROM fruta WHERE fruta.nome = $1), (SELECT id_fornecedor FROM fornecedor WHERE fornecedor.nome = $2))`
 
 	_, err := estoqueRepository.Db.Conn.Exec(query, estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
+
 	return err
 }
 
@@ -55,7 +57,13 @@ func (estoqueRepository *EstoqueDatabase) UpdateEstoque(estoque *model.Estoque) 
 			` WHERE id_fornecedor = (SELECT id_fornecedor FROM fornecedor WHERE fornecedor.nome = $2)` +
 			` AND id_fruta = (SELECT id_fruta FROM fruta WHERE fruta.nome = $1)`
 
-	_, err := estoqueRepository.Db.Conn.Exec(query, estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
+	result, err := estoqueRepository.Db.Conn.Exec(query, estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
+
+	rows, err := result.RowsAffected()
+
+	if rows == 0 {
+		return errors.New("erro: nenhuma linha foi afetada")
+	}
 
 	return err
 }
@@ -67,7 +75,13 @@ func (estoqueRepository *EstoqueDatabase) DeleteEstoque(estoque *model.Estoque) 
 			` AND id_fornecedor = (SELECT id_fornecedor FROM fornecedor WHERE fornecedor.nome = $2)` +
 			` AND id_fruta = (SELECT id_fruta FROM fruta WHERE fruta.nome = $1)`
 
-	_, err := estoqueRepository.Db.Conn.Exec(query, estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
+	result, err := estoqueRepository.Db.Conn.Exec(query, estoque.NomeFruta, estoque.NomeFornecedor, estoque.Quantidade)
+
+	rows, err := result.RowsAffected()
+
+	if rows == 0 {
+		return errors.New("erro: nenhuma linha foi afetada")
+	}
 
 	return err
 }

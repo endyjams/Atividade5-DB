@@ -312,6 +312,47 @@ paths:
           schema:
             type: string
       summary: Deleta um estoque a partir de suas informaçōes
+  /deletar/fornecedor:
+    delete:
+      description: Deleta as informaçōes de um fornecedor a partir de suas informaçōes
+      operationId: delete-fornecedor
+      parameters:
+      - description: nome
+        in: path
+        name: nome
+        required: true
+        type: string
+      - description: nome
+        in: path
+        name: telefone
+        required: true
+        type: string
+      - description: Fornecedor
+        in: body
+        name: fornecedor
+        required: true
+        schema:
+          $ref: '#/definitions/model.Fornecedor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Fornecedor deletado com sucesso
+          schema:
+            type: string
+        "400":
+          description: Informaçōes inválidas.
+          schema:
+            type: string
+        "404":
+          description: Fornecedor não encontrado
+          schema:
+            type: string
+        "500":
+          description: Falha ao deletar o fornecedor. Por favor, tente novamente
+          schema:
+            type: string
+      summary: Deleta as informaçōes de um fornecedor existente
   /deletar/fruta:
     delete:
       description: Deleta as informações de uma fruta a partir de seu nome e preço

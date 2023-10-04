@@ -437,6 +437,67 @@ const docTemplate = `{
                 }
             }
         },
+        "/deletar/fornecedor": {
+            "delete": {
+                "description": "Deleta as informaçōes de um fornecedor a partir de suas informaçōes",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Deleta as informaçōes de um fornecedor existente",
+                "operationId": "delete-fornecedor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "nome",
+                        "name": "nome",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "nome",
+                        "name": "telefone",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Fornecedor",
+                        "name": "fornecedor",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Fornecedor"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fornecedor deletado com sucesso",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Informaçōes inválidas.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Fornecedor não encontrado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Falha ao deletar o fornecedor. Por favor, tente novamente",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/deletar/fruta": {
             "delete": {
                 "description": "Deleta as informações de uma fruta a partir de seu nome e preço",

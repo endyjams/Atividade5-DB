@@ -81,6 +81,7 @@ func (frutaController *FrutaController) CreateFruta(ctx *gin.Context) {
 // @ID update-fruta
 // @Produce json
 // @Param nome path string true "nome"
+// @Param nome path int true "preco"
 // @Param fruta body model.Fruta true "Fruta"
 // @Success 200 {object} string "Fruta atualizada com sucesso"
 // @Failure 400 {object} string "Informaçōes inválidas."

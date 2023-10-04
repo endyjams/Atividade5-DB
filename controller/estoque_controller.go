@@ -21,7 +21,7 @@ type EstoqueController struct {
 // @Success 200 {object} model.Estoque "Retorna as informaçōes do estoque da Fruta"
 // @Failure 400 {object} string "O nome da fruta não deve ser vazio, e pode conter no máximo 50 caracteres"
 // @Failure 404 {object} string "Fruta não encontrada em Estoque"
-// @Router /obter/estoque/{nomeFruta}/{nomeFornecedor} [get]
+// @Router /obter/estoque/{nomeFornecedor}/{nomeFruta} [get]
 func (estoqueController *EstoqueController) GetEstoque(ctx *gin.Context) {
 	nomeFruta := ctx.Param("nomeFruta")
 	nomeFornecedor := ctx.Param("nomeFornecedor")
@@ -77,6 +77,9 @@ func (estoqueController *EstoqueController) CreateEstoque(ctx *gin.Context) {
 // @Description Atualiza a quantidade de uma fruta no estoque a partir das novas informaçōes sobre o estoque
 // @ID update-estoque
 // @Produce json
+// @Param nomeFruta path string true "NomeFruta"
+// @Param nomeFornecedor path string true "NomeFornecedor"
+// @Param quantidade path int true "Quantidade"
 // @Param estoque body model.Estoque true "Estoque"
 // @Success 200 {object} string "Estoque atualizado com sucesso"
 // @Failure 400 {object} string "Informaçōes inválidas."
@@ -114,6 +117,9 @@ func (estoqueController *EstoqueController) UpdateEstoque(ctx *gin.Context) {
 // @Description Deleta o estoque de uma fruta associada a um fornecedor
 // @ID delete-estoque
 // @Produce json
+// @Param nomeFruta path string true "NomeFruta"
+// @Param nomeFornecedor path string true "NomeFornecedor"
+// @Param quantidade path int true "Quantidade"
 // @Param estoque body model.Estoque true "Estoque"
 // @Success 200 {object} string "Estoque deletado com sucesso"
 // @Failure 400 {object} string "Informaçōes inválidas."

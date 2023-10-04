@@ -88,7 +88,6 @@ func (fornecedorController *FornecedorController) CreateFornecedor(ctx *gin.Cont
 // @Failure 404 {object} string "Fornecedor não encontrado"
 // @Failure 500 {object} string "Falha ao atualizar o fornecedor. Por favor, tente novamente"
 // @Router /atualizar/fornecedor [put]
-
 func (fornecedorController *FornecedorController) UpdateFornecedor(ctx *gin.Context) {
 	var fornecedor model.Fornecedor
 

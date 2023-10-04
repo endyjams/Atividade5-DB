@@ -127,7 +127,6 @@ func (fornecedorController *FornecedorController) UpdateFornecedor(ctx *gin.Cont
 // @Failure 404 {object} string "Fornecedor não encontrado"
 // @Failure 500 {object} string "Falha ao deletar o fornecedor. Por favor, tente novamente"
 // @Router /deletar/fornecedor [delete]
-
 func (fornecedorController *FornecedorController) DeleteFornecedor(ctx *gin.Context) {
 	var fornecedor model.Fornecedor
 

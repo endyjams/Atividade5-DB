@@ -39,6 +39,7 @@
 - Endpoint POST: http://3.212.166.89:8000/criar/estoque
 - Endpoint PUT: http://3.212.166.89:8000/atualizar/estoque
 - Endpoint DELETE: http://3.212.166.89:8000/deletar/estoque
+- Endpoint POST(Transaction on Database): http://3.212.166.89:8000/preencher/estoque
 
 ## Gerando e acessando swagger
 

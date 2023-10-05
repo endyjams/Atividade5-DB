@@ -11,7 +11,7 @@ type EstoqueRepository interface {
 	CreateEstoque(estoque *model.Estoque) error
 	UpdateEstoque(estoque *model.Estoque) error
 	DeleteEstoque(estoque *model.Estoque) error
-	FillEstoque() error
+	FillEstoque() (*model.Estoque, error)
 }
 
 type EstoqueDatabase struct {
@@ -86,11 +86,39 @@ func (estoqueRepository *EstoqueDatabase) DeleteEstoque(estoque *model.Estoque) 
 	return err
 }
 
-func (estoqueRepository *EstoqueDatabase) FillEstoque() error {
+func (estoqueRepository *EstoqueDatabase) FillEstoque() (*model.Estoque, error) {
 	tx, err := estoqueRepository.Db.Conn.Begin()
 
 	if err != nil {
-		return err
+		return nil, err
+	}
+
+	query := `WITH FrutaEsgotada AS (
+		SELECT id_fruta 
+		FROM Fruta
+		WHERE id_fruta NOT IN (SELECT id_fruta FROM Estoque)
+		LIMIT 1
+	),
+	FornecedorBaixoEstoque AS (
+		SELECT id_fornecedor
+		FROM Estoque
+		GROUP BY id_fornecedor
+		ORDER BY SUM(quantidade) ASC
+		LIMIT 1
+	)
+	SELECT fruta.nome, fornecedor.nome, 10 as quantidade
+	FROM FrutaEsgotada
+	JOIN Fruta ON FrutaEsgotada.id_fruta = Fruta.id_fruta
+	JOIN FornecedorBaixoEstoque ON 1=1
+	JOIN Fornecedor ON FornecedorBaixoEstoque.id_fornecedor = Fornecedor.id_fornecedor;
+	`
+
+	var estoque model.Estoque
+
+	err2 := estoqueRepository.Db.Conn.QueryRow(query).Scan(&estoque.NomeFruta, &estoque.NomeFornecedor, &estoque.Quantidade)
+
+	if err2 != nil {
+		return nil, err2
 	}
 
 	defer tx.Rollback()
@@ -121,14 +149,14 @@ func (estoqueRepository *EstoqueDatabase) FillEstoque() error {
 	_, err = tx.Exec(transaction)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	err = tx.Commit()
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return err
+	return &estoque, err
 }

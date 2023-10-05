@@ -2,7 +2,7 @@ package service
 
 import (
 	"Atividade5-DB/model"
-	repository "Atividade5-DB/repository"
+	"Atividade5-DB/repository"
 )
 
 type EstoqueService struct {
@@ -25,6 +25,6 @@ func (estoqueService *EstoqueService) DeleteEstoque(estoque *model.Estoque) erro
 	return estoqueService.EstoqueRepository.DeleteEstoque(estoque)
 }
 
-func (estoqueService *EstoqueService) FillEstoque() error {
+func (estoqueService *EstoqueService) FillEstoque() (*model.Estoque, error) {
 	return estoqueService.EstoqueRepository.FillEstoque()
 }
